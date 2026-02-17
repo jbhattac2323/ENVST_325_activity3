@@ -18,10 +18,6 @@ axis(2, seq(0,6000000000,by=2000000000),seq(0,6, by=2),las=2 )
 #limitations: labels, open circle points, labels on y at weird angle
 
 
-
-
-
-
 ggplot(US,aes(x=Year,y=CO2))+ #+ is specific to ggplot
   geom_point()+
   geom_line()+
@@ -75,12 +71,14 @@ ggplot(Hemispheres,aes(x=date,y=temperature_anomaly,color = Entity))+
   labs(x='Year',y='Temperature Anomaly')
 
 
-#Prompt 2:
+#Prompt 2 + 3:
 total_emm<-NorthA%>%
   group_by(Entity)%>%
   summarise(total_emmission=sum(CO2))
 
 ggplot(total_emm, aes(Entity,total_emmission))+
-         geom_point()
+         geom_col()+
+  labs(x='Country', y=expression('Total Emissions of CO'[2]))
 
+#3 is to use expression() with what we want the subscript to be in[]
        
