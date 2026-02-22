@@ -81,4 +81,25 @@ ggplot(total_emm, aes(Entity,total_emmission))+
   labs(x='Country', y=expression('Total Emissions of CO'[2]))
 
 #3 is to use expression() with what we want the subscript to be in[]
+
+
+#Homework Question-----
+#Q1: Last 100 years Developing countries in South Asia (Pakistan and India) average emission scatter plot with lines along with a dotted line showing average emission level in USA (developed country)
+
+Comparison<-datCO2%>%
+  filter(Entity=='United States' |Entity=='India' |Entity=='Pakistan')%>%
+  filter(Year>1920)
+
+ggplot(Comparison, aes(x=Year, y= CO2/1e9,col=Entity))+
+  geom_line()+
+  scale_color_manual(values = c(
+      "United States" = "red",
+      "India" = "royalblue",
+      "Pakistan" = "darkgreen")) +
+  labs(y=expression("Emissions of CO"[2]~"[billions of tons]"),
+       title = expression("Trends in CO"[2]~"Emissions: United States, India, and Pakistan(1920-2020)")
+  )+
+  theme(plot.title = element_text(hjust = 0.5)) #center
+
+       
        
