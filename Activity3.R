@@ -96,10 +96,40 @@ ggplot(Comparison, aes(x=Year, y= CO2/1e9,col=Entity))+
       "United States" = "red",
       "India" = "royalblue",
       "Pakistan" = "darkgreen")) +
-  labs(y=expression("Emissions of CO"[2]~"[billions of tons]"),
+  labs(y=expression("Annual Emissions of CO"[2]~"[billions of tons]"),
        title = expression("Trends in CO"[2]~"Emissions: United States, India, and Pakistan(1920-2020)")
   )+
+  theme_classic()+
   theme(plot.title = element_text(hjust = 0.5)) #center
 
-       
-       
+#Q2: Communicate about both issues 
+#average temperature fluctuation around the world.
+#separating world data from others
+worldCO2<-datCO2%>%
+  filter(Entity=='World')%>%
+  filter(Year>1919)
+  
+
+worldTemp<-climate%>% #1920-2020
+  filter(Entity=='World')%>%
+  filter(date>"1919-12-15")
+
+#CO2 Plot
+ggplot(worldCO2,aes(x=Year, y= CO2/1e9))+
+  geom_line()+
+  labs(y=expression("Annual Emissions of CO"[2]~"[billions of tons]"),
+       title = expression("Trends in World CO"[2]~"Emission Levels since 1920")
+  )+
+  scale_x_continuous(limits = c(1920, 2021))+ #to prvent 2020 label isn't being cut
+  theme_classic()+
+  theme(plot.title = element_text(hjust = 0.5)) #center
+
+#World Temp
+ggplot(worldTemp,aes(x=date, y= temperature_anomaly))+
+  geom_line()+
+  labs(x="Year", y=expression("Temperature Anomaly (in Celsius)"),
+       title = expression("Trends in World Temperature Anomalies since 1920")
+  )+
+  theme_classic()+
+  theme(plot.title = element_text(hjust = 0.5)) #center
+
