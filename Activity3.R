@@ -39,7 +39,7 @@ ggplot(NorthA,
 climate<- read.csv("/cloud/project/activity03/climate-change.csv")
 
 #install.packages('lubridate')
-#library(lubridate)
+library(lubridate)
 
 climate$date<-ymd(climate$Day)
 plot(climate$date,climate$temperature_anomaly)
@@ -84,7 +84,7 @@ ggplot(total_emm, aes(Entity,total_emmission))+
 
 
 #Homework Question-----
-#Q1: Last 100 years Developing countries in South Asia (Pakistan and India) average emission scatter plot with lines along with a dotted line showing average emission level in USA (developed country)
+#Q1: Last 100 years Developing countries in South Asia (Pakistan and India) vs USA 
 
 Comparison<-datCO2%>%
   filter(Entity=='United States' |Entity=='India' |Entity=='Pakistan')%>%
@@ -103,12 +103,10 @@ ggplot(Comparison, aes(x=Year, y= CO2/1e9,col=Entity))+
   theme(plot.title = element_text(hjust = 0.5)) #center
 
 #Q2: Communicate about both issues 
-#average temperature fluctuation around the world.
 #separating world data from others
 worldCO2<-datCO2%>%
   filter(Entity=='World')%>%
   filter(Year>1919)
-  
 
 worldTemp<-climate%>% #1920-2020
   filter(Entity=='World')%>%
@@ -120,16 +118,31 @@ ggplot(worldCO2,aes(x=Year, y= CO2/1e9))+
   labs(y=expression("Annual Emissions of CO"[2]~"[billions of tons]"),
        title = expression("Trends in World CO"[2]~"Emission Levels since 1920")
   )+
-  scale_x_continuous(limits = c(1920, 2021))+ #to prvent 2020 label isn't being cut
+  scale_x_continuous(limits = c(1920, 2021))+ #to prvent year 2020 label being cut while copying image
   theme_classic()+
   theme(plot.title = element_text(hjust = 0.5)) #center
 
 #World Temp
 ggplot(worldTemp,aes(x=date, y= temperature_anomaly))+
   geom_line()+
-  labs(x="Year", y=expression("Temperature Anomaly (in Celsius)"),
+  labs(x="Year", y=expression("Temperature Anomaly [in Celsius]"),
        title = expression("Trends in World Temperature Anomalies since 1920")
   )+
   theme_classic()+
   theme(plot.title = element_text(hjust = 0.5)) #center
 
+
+#Q3: Number of objects in space by country since 2010.
+spaceobject<- read.csv("/cloud/project/activity03/spaceobject.csv")
+colnames(spaceobject)[4]<-"objects"
+colnames(spaceobject)[1]<-"Country"
+
+space2010<-spaceobject%>% #want since 2010
+  filter(Year>2009)
+
+ggplot(space2010,aes(x=Year,y=objects,col=Country))+
+  geom_line()+
+  labs(x="Year", y="Number of objects launched into space",
+       title = "Annual number of objects launched into space since 2010")+
+  theme_classic()+
+  theme(plot.title = element_text(hjust = 0.5)) #center
