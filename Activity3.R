@@ -103,12 +103,12 @@ ggplot(Comparison, aes(x=Year, y= CO2/1e9,col=Entity))+
   theme(plot.title = element_text(hjust = 0.5)) #center
 
 #Q2: Communicate about both issues 
-#separating world data from others
+#separating world data from others since 1920
 worldCO2<-datCO2%>%
   filter(Entity=='World')%>%
   filter(Year>1919)
 
-worldTemp<-climate%>% #1920-2020
+worldTemp<-climate%>% 
   filter(Entity=='World')%>%
   filter(date>"1919-12-15")
 
